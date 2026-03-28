@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const SERVICES = [
   {
@@ -25,12 +25,12 @@ const SERVICES = [
     desc: "Pixel-perfect on every device. Mobile-first development that looks stunning on phones, tablets, and desktops.",
     tags: ["Mobile", "Tablet", "Desktop"],
   },
-  {
-    icon: "🎯",
-    title: "Figma to HTML / React / Next.js",
-    desc: "Pixel-perfect conversion of any Figma design into clean, production-ready HTML, React, or Next.js code. Exactly as designed — no compromises.",
-    tags: ["Figma", "React", "Next.js"],
-  },
+    {
+      icon: "🎯",
+      title: "Figma to HTML / React / Next.js",
+      desc: "Pixel-perfect conversion of any Figma design into clean, production-ready HTML, React, or Next.js code. Exactly as designed — no compromises.",
+      tags: ["Figma", "React", "Next.js"],
+    },
   {
     icon: "🔧",
     title: "Bug Fixes & Updates",
@@ -42,57 +42,99 @@ const SERVICES = [
 const PROJECTS = [
   {
     id: 1,
-    title: "Monkk — AI Trading Platform",
+    title: "KOOF",
     category: "Landing Page",
-    desc: "AI-powered trading platform featuring DMT Process — combining trade signals, risk management & psychology coaching for disciplined traders.",
-    link: "https://work.mobidudes.in/Mohit/monkk/",
-    tech: ["React", "TailwindCSS", "Animations"],
-    color: "#00FF87",
+    desc: "Cashbox is a new person-to-person money transfer app that provides enhanced security features when sending money.",
+    longDesc: "KOOF is a person-to-person money transfer landing page built to convey trust and security. The design focuses on clear value propositions, a clean layout, and strong CTAs that drive sign-ups. Built with smooth animations and a mobile-first approach to maximize conversions across all devices.",
+    link: "https://work.mobidudes.in/Mohit/koof/",
+    tech: ["HTML", "CSS", "JS", "Animations"],
+    color: "#0022ffff",
+    highlights: ["Secure transfer flow UI", "Mobile-first responsive layout", "Smooth CSS animations", "High-converting CTA sections"],
+    images: [
+      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1559526324-593bc073d938?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
   {
     id: 2,
-    title: "React Admin Dashboard",
-    category: "Web App",
-    desc: "Full-featured e-commerce admin panel with sales analytics, customer tracking, monthly targets, charts and complete UI component library.",
-    link: "https://work.mobidudes.in/Mohit/react-admin/",
-    tech: ["React", "Tailwind", "Charts"],
+    title: "Fynsd - A Finance Learning Site",
+    category: "Website",
+    desc: "Fynsd is designed to make finance simple, modern, and accessible. Through clear guides, practical tools, and a supportive community, we help learners gain confidence in managing their money effectively.",
+    longDesc: "Fynsd is a full-featured finance learning platform designed to make money management simple and accessible. The site features clear guides, interactive tools, and a community-driven approach. Built with React and Framer Motion for smooth animations, with a Node.js backend powering the dynamic content.",
+    link: "https://fynsd.vercel.app/",
+    tech: ["React", "Tailwind", "Framer Motion", "Node.js"],
     color: "#FF6B35",
+    highlights: ["Interactive finance learning modules", "Community-driven content system", "Framer Motion animations", "Full Node.js backend integration"],
+    images: [
+      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
   {
     id: 3,
-    title: "Monkk 2.0 — Redesigned",
+    title: "Monkk",
     category: "Landing Page",
     desc: "Revamped version of Monkk with a fresh green aesthetic — cleaner layout and better visual hierarchy for higher conversions.",
+    longDesc: "A complete redesign of the Monkk landing page featuring a fresh green aesthetic and improved visual hierarchy. The revamped layout includes GSAP-powered scroll animations, a refined brand identity, and an optimized conversion flow that resulted in significantly higher CTA click rates than the original version.",
     link: "https://work.mobidudes.in/Mohit/new-monkk/",
     tech: ["React", "CSS", "GSAP"],
     color: "#7C3AED",
+    highlights: ["GSAP scroll-triggered animations", "Redesigned hero with new brand identity", "Higher CTA conversion rate", "Improved mobile experience"],
+    images: [
+      "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1642790106117-e829e14a795f?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1620714223084-8fcacc2dbbe6?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
   {
     id: 4,
     title: "Mobidudes Agency Website",
     category: "Business Site",
     desc: "Corporate website for a digital agency — dark UI with services, portfolio, careers and contact sections. Built to convert visitors into clients.",
+    longDesc: "Full corporate website for a digital agency. Dark, premium aesthetic with smooth scroll animations, an interactive portfolio grid, services breakdown, team section, and multi-step contact form. Built with Framer Motion page transitions to position the agency as a premium brand.",
     link: "https://work.mobidudes.in/Mohit/mobidudes/",
     tech: ["React", "TailwindCSS", "Framer"],
     color: "#F59E0B",
+    highlights: ["Framer Motion page transitions", "Interactive portfolio grid", "Multi-step contact form", "Careers & team sections"],
+    images: [
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
   {
     id: 5,
     title: "Tawazun — Wellness App",
     category: "Landing Page",
     desc: "UAE-born wellness platform with fasting tracking, hydration monitoring & AI insights. App Store + Play Store CTAs with waitlist flow.",
+    longDesc: "Landing page for Tawazun, a wellness app born in the UAE. The page communicates health, calm, and cutting-edge technology simultaneously. Features an animated app preview, waitlist funnel, fasting & hydration tracker previews, and a seamless App Store / Play Store CTA flow.",
     link: "https://work.mobidudes.in/Mohit/Tawazun/",
     tech: ["React", "Next.js", "Animations"],
     color: "#EC4899",
+    highlights: ["Animated app mockup previews", "Waitlist email capture flow", "Fasting & hydration UI demos", "App Store & Play Store CTAs"],
+    images: [
+      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
   {
     id: 6,
-    title: "Resume Builder Platform",
-    category: "SaaS / Web App",
-    desc: "Clean SaaS landing page for a resume & CV builder tool — live resume previews, pricing plans, and a modern dark-themed UI.",
-    link: "https://work.mobidudes.in/Mohit/Example/",
-    tech: ["React", "Node.js", "Stripe"],
+    title: "Estal",
+    category: "Website",
+    desc: "Your Trusted Real Estate Partner - From finding the perfect home to creating seamless selling experiences, we're here to make every move matter.",
+    longDesc: "Estal is a real estate platform built to connect buyers and sellers seamlessly. From property listings to guided selling experiences, every section of the site is optimized for trust and conversion. Built with clean HTML, CSS and JS with smooth animations throughout.",
+    link: "https://work.mobidudes.in/Mohit/estal/home.html",
+    tech: ["HTML", "CSS", "JS", "Animation"],
     color: "#06B6D4",
+    highlights: ["Property listing UI", "Smooth scroll animations", "Trust-building design elements", "Mobile-optimized experience"],
+    images: [
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
 ];
 
@@ -168,9 +210,234 @@ function CountUp({ target, suffix = "" }) {
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
+/* ─────────────────────────────────────────
+   PROJECT MODAL
+───────────────────────────────────────── */
+function ProjectModal({ project, onClose }) {
+  const [imgIndex, setImgIndex] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  const close = useCallback(() => {
+    setClosing(true);
+    setTimeout(onClose, 400);
+  }, [onClose]);
+
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") close(); };
+    window.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [close]);
+
+  const prev = () => { setImgLoaded(false); setImgIndex(i => (i - 1 + project.images.length) % project.images.length); };
+  const next = () => { setImgLoaded(false); setImgIndex(i => (i + 1) % project.images.length); };
+
+  return (
+    <div
+      style={{
+        position: "fixed", inset: 0, zIndex: 9000,
+        background: "rgba(4,4,4,0.88)",
+        backdropFilter: "blur(8px)",
+        animation: closing ? "pmFadeOut 0.4s ease both" : "pmFadeIn 0.35s ease both",
+        display: "flex", alignItems: "stretch", justifyContent: "flex-end",
+      }}
+      onClick={close}
+    >
+      <div
+        style={{
+          width: "min(780px, 100vw)",
+          background: "#0e0e0e",
+          borderLeft: "1px solid rgba(255,255,255,0.08)",
+          display: "flex", flexDirection: "column",
+          overflowY: "auto",
+          animation: closing ? "pmSlideOut 0.4s cubic-bezier(0.25,0.46,0.45,0.94) both" : "pmSlideIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94) both",
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* TOP BAR */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "20px 28px",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          position: "sticky", top: 0, background: "#0e0e0e", zIndex: 10,
+          flexShrink: 0,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <span style={{
+              fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 2,
+              textTransform: "uppercase", padding: "4px 12px", border: `1px solid ${project.color}55`,
+              borderRadius: 100, color: project.color,
+            }}>
+              {project.category}
+            </span>
+            <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, opacity: 0.5, color: project.color }}>
+              {String(project.id).padStart(2, "0")}
+            </span>
+          </div>
+          <button
+            onClick={close}
+            aria-label="Close"
+            style={{
+              width: 36, height: 36, background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)", color: "#888",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", borderRadius: 4, transition: "all 0.25s", flexShrink: 0,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "#F0EDE8"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "#888"; }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        {/* BODY */}
+        <div style={{ padding: 28, display: "flex", flexDirection: "column", gap: 28, flex: 1 }}>
+          {/* GALLERY */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ position: "relative", aspectRatio: "16/9", overflow: "hidden", background: "#1a1a1a" }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: project.color, zIndex: 2 }} />
+              <img
+                key={imgIndex}
+                src={project.images[imgIndex]}
+                alt={project.title}
+                style={{
+                  width: "100%", height: "100%", objectFit: "cover", display: "block",
+                  opacity: imgLoaded ? 1 : 0, transition: "opacity 0.35s ease",
+                  animation: imgLoaded ? "pmImgIn 0.45s ease both" : "none",
+                }}
+                onLoad={() => setImgLoaded(true)}
+              />
+              {project.images.length > 1 && (
+                <>
+                  <button
+                    onClick={prev}
+                    aria-label="Previous"
+                    style={{
+                      position: "absolute", top: "50%", left: 12, transform: "translateY(-50%)",
+                      width: 40, height: 40, background: "rgba(8,8,8,0.7)",
+                      border: "1px solid rgba(255,255,255,0.12)", color: "#F0EDE8",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", zIndex: 3, borderRadius: 4,
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={next}
+                    aria-label="Next"
+                    style={{
+                      position: "absolute", top: "50%", right: 12, transform: "translateY(-50%)",
+                      width: 40, height: 40, background: "rgba(8,8,8,0.7)",
+                      border: "1px solid rgba(255,255,255,0.12)", color: "#F0EDE8",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", zIndex: 3, borderRadius: 4,
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </button>
+                </>
+              )}
+              <div style={{
+                position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)",
+                background: "rgba(8,8,8,0.7)", padding: "4px 12px",
+                fontFamily: "'Space Mono', monospace", fontSize: 11, color: "#888",
+                zIndex: 3, display: "flex", alignItems: "center", gap: 4, borderRadius: 100,
+              }}>
+                <span style={{ color: project.color }}>{imgIndex + 1}</span>
+                <span style={{ opacity: 0.4 }}>/</span>
+                {project.images.length}
+              </div>
+            </div>
+
+            {/* Thumbnails */}
+            <div style={{ display: "flex", gap: 8 }}>
+              {project.images.map((src, i) => (
+                <div
+                  key={i}
+                  onClick={() => { setImgLoaded(false); setImgIndex(i); }}
+                  style={{
+                    flex: 1, aspectRatio: "16/9", overflow: "hidden", cursor: "pointer",
+                    border: `2px solid ${i === imgIndex ? project.color : "transparent"}`,
+                    opacity: i === imgIndex ? 1 : 0.5, borderRadius: 4,
+                    transition: "all 0.25s",
+                  }}
+                >
+                  <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* INFO */}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <h2 style={{
+              fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(28px, 4vw, 38px)",
+              lineHeight: 1.05, marginBottom: 14, letterSpacing: 0.5,
+            }}>{project.title}</h2>
+            <p style={{ color: "#888", fontSize: 14, lineHeight: 1.8, marginBottom: 24 }}>{project.longDesc}</p>
+
+            <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 12 }}>Key Features</div>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+              {project.highlights.map((h, i) => (
+                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13.5, color: "#ccc", lineHeight: 1.5 }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: project.color, flexShrink: 0, marginTop: 6, display: "block" }} />
+                  {h}
+                </li>
+              ))}
+            </ul>
+
+            <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 12, marginTop: 24 }}>Tech Stack</div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {project.tech.map(t => (
+                <span key={t} style={{
+                  fontSize: 12, fontFamily: "'Space Mono', monospace",
+                  padding: "5px 13px", border: `1px solid ${project.color}44`,
+                  borderRadius: 4, color: project.color,
+                }}>{t}</span>
+              ))}
+            </div>
+
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                marginTop: 28, display: "inline-flex", alignItems: "center", gap: 9,
+                padding: "14px 28px", fontWeight: 700, fontSize: 14, letterSpacing: 0.3,
+                border: "none", borderRadius: 4, cursor: "pointer", color: "#080808",
+                fontFamily: "'DM Sans', sans-serif", textDecoration: "none",
+                transition: "all 0.25s ease", alignSelf: "flex-start",
+                background: project.color,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.filter = "brightness(1.12)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.filter = "brightness(1)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              Visit Live Site
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [activeProject, setActiveProject] = useState(null);
 
   const typed = useTypingEffect(
     ["Landing Pages", "Web Apps", "E-Commerce", "Dashboards", "Business Sites"],
@@ -624,6 +891,14 @@ export default function Portfolio() {
       <div className="grain" />
       <div className="cursor-glow" style={{ left: cursorPos.x, top: cursorPos.y }} />
 
+      {/* Project Modal */}
+      {activeProject && (
+        <ProjectModal
+          project={activeProject}
+          onClose={() => setActiveProject(null)}
+        />
+      )}
+
       {/* ── NAV ── */}
       <nav className="nav-wrap">
         <div className="nav-logo">MG<span>DUDE</span></div>
@@ -774,7 +1049,7 @@ export default function Portfolio() {
                     {p.tech.map(t => <span key={t} className="tag">{t}</span>)}
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
